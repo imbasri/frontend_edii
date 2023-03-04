@@ -34,6 +34,7 @@ function Homepage() {
             })
             .catch((error) => {
                console.log(error);
+               toast.error(error.message);
             });
       }
       setSearch(e.target.value);
@@ -69,6 +70,7 @@ function Homepage() {
             })
             .catch((error) => {
                console.log(error);
+               toast.error(error.message);
             });
          setName("");
          setUsername("");
@@ -78,8 +80,7 @@ function Homepage() {
       } catch (error) {
          console.log(error);
          setIsLoading(false);
-
-         toast.error(error);
+         toast.error(error.message);
       }
    };
 
@@ -94,6 +95,7 @@ function Homepage() {
          .catch((error) => {
             console.log(error);
             setIsLoading(false);
+            toast.error(error.message);
          });
    };
    useEffect(() => {
@@ -105,6 +107,7 @@ function Homepage() {
          })
          .catch((error) => {
             console.log(error);
+            toast.error(error.message);
          });
    }, [id]);
 
