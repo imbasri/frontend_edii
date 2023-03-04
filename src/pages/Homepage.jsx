@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { getUser, postUser, delUser } from "../api/user";
 import { ToastContainer, toast } from "react-toastify";
-import { Table } from "flowbite-react";
+import { Table, Spinner } from "flowbite-react";
 import UserList from "../components/UserList";
 
 function Homepage() {
@@ -15,6 +15,7 @@ function Homepage() {
    const [search, setSearch] = useState("all");
    const [data, setData] = useState([]);
    const [id, setId] = useState("");
+   const [isLoading, setIsLoading] = useState(false);
    // showpassword
    const btnShowPwd = () => {
       typePwd === "password" ? setTypePwd("text") : setTypePwd("password");
@@ -48,6 +49,7 @@ function Homepage() {
    };
 
    const handleSubmit = async (e) => {
+      setIsLoading(true);
       try {
          e.preventDefault();
          if (!name || !username || !password || !status) {
@@ -63,6 +65,7 @@ function Homepage() {
          getUser("all")
             .then((result) => {
                setData(result.data.data);
+               setIsLoading(false);
             })
             .catch((error) => {
                console.log(error);
@@ -74,24 +77,31 @@ function Homepage() {
          console.log(response);
       } catch (error) {
          console.log(error);
+         setIsLoading(false);
+
          toast.error(error);
       }
    };
 
    const handleDelete = (id) => {
+      setIsLoading(true);
       delUser(id)
          .then((response) => {
             toast.success(response.data.msg);
             setId(id);
+            setIsLoading(false);
          })
          .catch((error) => {
             console.log(error);
+            setIsLoading(false);
          });
    };
    useEffect(() => {
+      setIsLoading(true);
       getUser("all")
          .then((result) => {
             setData(result.data.data);
+            setIsLoading(false);
          })
          .catch((error) => {
             console.log(error);
@@ -202,7 +212,7 @@ function Homepage() {
                   onKeyDown={(e) => inputSearch(e)}
                />
             </div>
-            <div className="w-full overflow-y-auto sm:h-64 h-40 mb-8">
+            <div className="w-full overflow-y-auto sm:h-64 h-40 mb-8 relative">
                <Table hoverable={true}>
                   <Table.Head>
                      <Table.HeadCell>User Id</Table.HeadCell>
@@ -215,21 +225,31 @@ function Homepage() {
                      </Table.HeadCell>
                   </Table.Head>
                   {/* data */}
-                  {data &&
-                     data.map((e, i) => {
-                        return (
-                           <UserList
-                              key={e.userid}
-                              id={e.userid}
-                              namalengkap={e.namalengkap}
-                              username={e.username}
-                              password={e.password}
-                              status={e.status}
-                              handleDelete={() => handleDelete(e.userid)}
-                           />
-                        );
-                     })}
+                  {isLoading
+                     ? null
+                     : data &&
+                       data.map((e, i) => {
+                          return (
+                             <UserList
+                                key={e.userid}
+                                id={e.userid}
+                                namalengkap={e.namalengkap}
+                                username={e.username}
+                                password={e.password}
+                                status={e.status}
+                                handleDelete={() => handleDelete(e.userid)}
+                             />
+                          );
+                       })}
                </Table>
+               {isLoading ? (
+                  <div className="flex justify-center items-center my-10">
+                     <Spinner
+                        aria-label="Extra large spinner example"
+                        size="xl"
+                     />
+                  </div>
+               ) : null}
             </div>
          </section>
          {/* toast */}
