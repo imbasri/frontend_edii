@@ -18,6 +18,7 @@
 -  [Related Project](#related-project)
 
 MockUp [`here`](https://frontend-edii.vercel.app/)
+MockUp Video Demo [`here`](https://github.com/imbasri/frontend_edii/raw/master/public/DEMO%20APLIKASI.mp4)
 
 ## Features
 
