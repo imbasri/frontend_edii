@@ -99,7 +99,7 @@ function Homepage() {
    }, [id]);
 
    return (
-      <main className="max-w-[1440px] w-full h-screen bg-slate-200 mx-auto p-5 md:p-2 ">
+      <main className="max-w-[1440px] w-full h-full md:h-full bg-slate-200 mx-auto p-5 md:p-2 ">
          <div className="w-full mx-auto">
             <form className="mt-5 bg-red-200 w-full md:w-1/2 p-2 mx-auto shadow-md rounded-2xl">
                <h2 className="font-bold text-center text-2xl md:text-4xl ">
@@ -202,7 +202,7 @@ function Homepage() {
                   onKeyDown={(e) => inputSearch(e)}
                />
             </div>
-            <div className="w-full  overflow-y-auto sm:h-fit h-40 pb-5">
+            <div className="w-full overflow-y-auto sm:h-64 h-40 mb-8">
                <Table hoverable={true}>
                   <Table.Head>
                      <Table.HeadCell>User Id</Table.HeadCell>
